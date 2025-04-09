@@ -5,8 +5,10 @@ import { useRef } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -29,6 +31,7 @@ interface CreateWorkspaceFormProps {
 }
 
 export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
+  const router = useRouter();
   const { mutate, isPending } = useCreateWorkspace();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -46,7 +49,15 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
       image: values.image instanceof File ? values.image : "",
     };
 
-    mutate({ form: finalValues });
+    mutate(
+      { form: finalValues },
+      {
+        onSuccess: ({ data }) => {
+          form.reset();
+          router.push(`/workspaces/${data.$id}`);
+        },
+      }
+    );
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,16 +134,34 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                           onChange={handleImageChange}
                           disabled={isPending}
                         />
-                        <Button
-                          type="button"
-                          disabled={isPending}
-                          variant="teritary"
-                          size="xs"
-                          className="w-fit mt-2"
-                          onClick={() => inputRef.current?.click()}
-                        >
-                          Upload Image
-                        </Button>
+                        {field.value ? (
+                          <Button
+                            type="button"
+                            disabled={isPending}
+                            variant="destructive"
+                            size="xs"
+                            className="w-fit mt-2"
+                            onClick={() => {
+                              field.onChange("");
+                              if (inputRef.current) {
+                                inputRef.current.value = "";
+                              }
+                            }}
+                          >
+                            Remove Image
+                          </Button>
+                        ) : (
+                          <Button
+                            type="button"
+                            disabled={isPending}
+                            variant="teritary"
+                            size="xs"
+                            className="w-fit mt-2"
+                            onClick={() => inputRef.current?.click()}
+                          >
+                            Upload Image
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -140,23 +169,18 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
               />
             </div>
             <DottedSeparator className="py-7" />
-            <div className="flex flex-col gap-2 w-full items-center justify-between md:flex-row">
+            <div className="flex gap-2 w-full items-center justify-between">
               <Button
                 type="button"
                 size="lg"
                 variant="secondary"
                 onClick={onCancel}
                 disabled={isPending}
-                className="w-full md:w-auto"
+                className={cn(!onCancel && "invisible")}
               >
                 Cancel
               </Button>
-              <Button
-                disabled={isPending}
-                type="submit"
-                size="lg"
-                className="w-full md:w-auto"
-              >
+              <Button disabled={isPending} type="submit" size="lg">
                 Create Workspace
               </Button>
             </div>
