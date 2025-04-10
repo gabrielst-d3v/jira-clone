@@ -46,7 +46,7 @@ export const JoinWorkspaceForm = ({
   };
 
   return (
-    <Card className="w-full h-full border-none shadow-none">
+    <Card className="w-full h-full  ">
       <CardHeader className="p-7">
         <CardTitle className="text-xl font-bold">Join Workspace</CardTitle>
         <CardDescription>
