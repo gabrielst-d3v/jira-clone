@@ -5,11 +5,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/rpc";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.workspaces)[":workspaceId"]["$patch"],
+  (typeof client.api.workspace)[":workspaceId"]["$patch"],
   200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.workspaces)[":workspaceId"]["$patch"]
+  (typeof client.api.workspace)[":workspaceId"]["$patch"]
 >;
 
 export const useUpdateWorkspace = () => {
@@ -17,7 +17,7 @@ export const useUpdateWorkspace = () => {
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ form, param }) => {
-      const response = await client.api.workspaces[":workspaceId"]["$patch"]({
+      const response = await client.api.workspace[":workspaceId"]["$patch"]({
         form,
         param,
       });

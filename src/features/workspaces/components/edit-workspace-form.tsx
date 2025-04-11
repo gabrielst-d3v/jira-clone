@@ -114,7 +114,7 @@ export const EditWorkspaceForm = ({
       {
         onSuccess: ({ data }) => {
           form.reset();
-          router.push(`/workspaces/${data.$id}`);
+          router.push(`/workspace/${data.$id}`);
         },
       }
     );
@@ -128,7 +128,7 @@ export const EditWorkspaceForm = ({
     }
   };
 
-  const fullInviteLink = `${window.location.origin}/workspaces/${initialValues.$id}/join/${initialValues.inviteCode}`;
+  const fullInviteLink = `${window.location.origin}/workspace/${initialValues.$id}/join/${initialValues.inviteCode}`;
 
   const handleCopyInviteLink = () => {
     navigator.clipboard
@@ -148,7 +148,7 @@ export const EditWorkspaceForm = ({
             onClick={
               onCancel
                 ? onCancel
-                : () => router.push(`/workspaces/${initialValues.$id}`)
+                : () => router.push(`/workspace/${initialValues.$id}`)
             }
           >
             <ArrowLeftIcon className="size-4" />

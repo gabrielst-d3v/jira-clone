@@ -5,11 +5,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/rpc";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.workspaces)[":workspaceId"]["reset-invite-code"]["$post"],
+  (typeof client.api.workspace)[":workspaceId"]["reset-invite-code"]["$post"],
   200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.workspaces)[":workspaceId"]["reset-invite-code"]["$post"]
+  (typeof client.api.workspace)[":workspaceId"]["reset-invite-code"]["$post"]
 >;
 
 export const useResetInviteCode = () => {
@@ -17,7 +17,7 @@ export const useResetInviteCode = () => {
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ param }) => {
-      const response = await client.api.workspaces[":workspaceId"][
+      const response = await client.api.workspace[":workspaceId"][
         "reset-invite-code"
       ]["$post"]({
         param,

@@ -5,11 +5,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/rpc";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.workspaces)[":workspaceId"]["join"]["$post"],
+  (typeof client.api.workspace)[":workspaceId"]["join"]["$post"],
   200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.workspaces)[":workspaceId"]["join"]["$post"]
+  (typeof client.api.workspace)[":workspaceId"]["join"]["$post"]
 >;
 
 export const useJoinWorkspace = () => {
@@ -17,7 +17,7 @@ export const useJoinWorkspace = () => {
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ param, json }) => {
-      const response = await client.api.workspaces[":workspaceId"]["join"][
+      const response = await client.api.workspace[":workspaceId"]["join"][
         "$post"
       ]({
         param,

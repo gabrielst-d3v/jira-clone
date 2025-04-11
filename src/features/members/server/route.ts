@@ -43,6 +43,7 @@ const app = new Hono()
             ...member,
             name: user.name,
             email: user.email,
+            role: MemberRole[member.role as keyof typeof MemberRole],
           };
         })
       );

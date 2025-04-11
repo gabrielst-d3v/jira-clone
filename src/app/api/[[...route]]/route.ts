@@ -11,8 +11,8 @@ const app = new Hono().basePath("/api");
 const routes = app
   .route("/auth", auth)
   .route("/members", members)
-  .route("/projects", projects)
-  .route("/workspaces", workspaces);
+  .route("/project", projects)
+  .route("/workspace", workspaces);
 
 export const GET = handle(app);
 export const POST = handle(app);

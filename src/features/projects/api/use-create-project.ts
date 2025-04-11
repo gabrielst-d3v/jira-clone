@@ -4,30 +4,33 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { client } from "@/lib/rpc";
 
-type ResponseType = InferResponseType<(typeof client.api.workspace)["$post"]>;
-type RequestType = InferRequestType<(typeof client.api.workspace)["$post"]>;
+type ResponseType = InferResponseType<
+  (typeof client.api.project)["$post"],
+  200
+>;
+type RequestType = InferRequestType<(typeof client.api.project)["$post"]>;
 
-export const useCreateWorkspace = () => {
+export const useCreateProject = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ form }) => {
-      const response = await client.api.workspace["$post"]({
+      const response = await client.api.project["$post"]({
         form,
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create workspace");
+        throw new Error("Failed to create project");
       }
 
       return await response.json();
     },
     onSuccess: () => {
-      toast.success("Workspace created");
-      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      toast.success("Project created");
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
     onError: () => {
-      toast.error("Failed to create workspace");
+      toast.error("Failed to create project");
     },
   });
 

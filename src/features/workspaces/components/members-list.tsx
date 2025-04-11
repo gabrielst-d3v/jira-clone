@@ -22,6 +22,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export const MembersList = () => {
   const workspaceId = useWorkspaceId();
@@ -65,7 +67,7 @@ export const MembersList = () => {
       <ConfirmDialog />
       <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-0">
         <Button asChild variant="secondary" size="sm">
-          <Link href={`/workspaces/${workspaceId}`}>
+          <Link href={`/workspace/${workspaceId}`}>
             <ArrowLeftIcon className="size-4" />
             Back
           </Link>
@@ -88,9 +90,20 @@ export const MembersList = () => {
                 <p className="text-sm font-medium">{member.name}</p>
                 <p className="text-xs text-muted-foreground">{member.email}</p>
               </div>
+              <Badge
+                variant="outline"
+                className={cn(
+                  member.role === MemberRole.ADMIN
+                    ? "bg-green-500"
+                    : "bg-gray-400",
+                  "ml-auto"
+                )}
+              >
+                {member.role === MemberRole.ADMIN ? "Admin" : "Member"}
+              </Badge>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="ml-auto" variant="secondary" size="icon">
+                  <Button variant="secondary" size="icon">
                     <MoreVerticalIcon className="size-4 text-muted-foreground" />
                   </Button>
                 </DropdownMenuTrigger>

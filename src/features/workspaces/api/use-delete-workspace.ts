@@ -5,11 +5,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/rpc";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.workspaces)[":workspaceId"]["$delete"],
+  (typeof client.api.workspace)[":workspaceId"]["$delete"],
   200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.workspaces)[":workspaceId"]["$delete"]
+  (typeof client.api.workspace)[":workspaceId"]["$delete"]
 >;
 
 export const useDeleteWorkspace = () => {
@@ -17,7 +17,7 @@ export const useDeleteWorkspace = () => {
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ param }) => {
-      const response = await client.api.workspaces[":workspaceId"]["$delete"]({
+      const response = await client.api.workspace[":workspaceId"]["$delete"]({
         param,
       });
 
