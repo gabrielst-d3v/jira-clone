@@ -1,43 +1,40 @@
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { InferRequestType, InferResponseType } from "hono";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { client } from "@/lib/rpc";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.workspace)[":workspaceId"]["$delete"],
+  (typeof client.api.project)[":projectId"]["$delete"],
   200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.workspace)[":workspaceId"]["$delete"]
+  (typeof client.api.project)[":projectId"]["$delete"]
 >;
 
-export const useDeleteWorkspace = () => {
-  const router = useRouter();
+export const useDeleteProject = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ param }) => {
-      const response = await client.api.workspace[":workspaceId"]["$delete"]({
+      const response = await client.api.project[":projectId"]["$delete"]({
         param,
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete workspace");
+        throw new Error("Failed to delete project");
       }
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success("Workspace deleted");
+      toast.success("Project deleted");
 
-      router.push("/");
-      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-      queryClient.invalidateQueries({ queryKey: ["workspace", data.$id] });
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["project", data.$id] });
     },
     onError: () => {
-      toast.error("Failed to delete workspace");
+      toast.error("Failed to delete project");
     },
   });
 

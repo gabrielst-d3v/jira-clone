@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PencilIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 
@@ -6,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { getCurrent } from "@/features/auth/queries";
 import { getProject } from "@/features/projects/queries";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
-import Link from "next/link";
+import { TaskViewSwitcher } from "@/features/tasks/components/task-view-switcher";
 
 interface ProjectIdPageProps {
   params: { projectId: string };
@@ -38,7 +39,7 @@ const ProjectIdPage = async ({ params }: ProjectIdPageProps) => {
         <div>
           <Button variant="secondary" size="sm" asChild>
             <Link
-              href={`/workspace/${initialValues.workspaceId}/project/${initialValues.id}/settings`}
+              href={`/workspace/${initialValues.workspaceId}/project/${initialValues.$id}/settings`}
             >
               <PencilIcon className="size-4" />
               Edit Project
@@ -46,6 +47,7 @@ const ProjectIdPage = async ({ params }: ProjectIdPageProps) => {
           </Button>
         </div>
       </div>
+      <TaskViewSwitcher />
     </div>
   );
 };
