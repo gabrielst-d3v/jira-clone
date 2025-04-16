@@ -14,7 +14,7 @@ import { DataFilters } from "./data-filters";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 
-import { UseGetTasks } from "../api/use-get-tasks";
+import { useGetTasks } from "../api/use-get-tasks";
 import { useTaskFilters } from "../hooks/use-task-filters";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
 
@@ -27,7 +27,7 @@ export const TaskViewSwitcher = () => {
   const workspaceId = useWorkspaceId();
   const { open } = useCreateTaskModal();
 
-  const { data: tasks, isLoading: isLoadingTasks } = UseGetTasks({
+  const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({
     workspaceId,
     projectId,
     assigneeId,

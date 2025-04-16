@@ -13,7 +13,7 @@ interface UseGetTasksProps {
   dueDate?: string | null;
 }
 
-export const UseGetTasks = ({
+export const useGetTasks = ({
   workspaceId,
   projectId,
   status,
