@@ -2,12 +2,10 @@
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -34,6 +32,7 @@ import {
 import { TaskStatus, Task } from "../types";
 import { createTaskSchema } from "../schemas";
 import { useUpdateTask } from "../api/use-update-task";
+import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
 interface EditTaskFormProps {
   onCancel?: () => void;
@@ -49,13 +48,14 @@ export const EditTaskForm = ({
   initialValues,
 }: EditTaskFormProps) => {
   const workspaceId = useWorkspaceId();
-  const router = useRouter();
   const { mutate, isPending } = useUpdateTask();
+  const taskFormSchema = createTaskSchema.omit({
+    workspaceId: true,
+    description: true,
+  });
 
-  const form = useForm<z.infer<typeof createTaskSchema>>({
-    resolver: zodResolver(
-      createTaskSchema.omit({ workspaceId: true, description: true })
-    ),
+  const form = useForm<z.infer<typeof taskFormSchema>>({
+    resolver: zodResolver(taskFormSchema),
     defaultValues: {
       ...initialValues,
       dueDate: initialValues.dueDate
@@ -64,9 +64,14 @@ export const EditTaskForm = ({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof createTaskSchema>) => {
+  const onSubmit = (values: z.infer<typeof taskFormSchema>) => {
+    const finalValues = {
+      ...values,
+      workspaceId,
+    };
+
     mutate(
-      { json: values, param: { taskId: initialValues.$id } },
+      { json: finalValues, param: { taskId: initialValues.$id } },
       {
         onSuccess: () => {
           form.reset();

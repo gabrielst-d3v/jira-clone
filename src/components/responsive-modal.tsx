@@ -1,16 +1,31 @@
 import { useMedia } from "react-use";
 
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface ResponsiveModalProps {
+  title: string;
+  description?: string;
   children: React.ReactNode;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export const ResponsiveModal = ({
+  title,
+  description,
   children,
   open,
   onOpenChange,
@@ -21,6 +36,10 @@ export const ResponsiveModal = ({
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="w-full sm:max-w-lg p-0  overflow-y-auto hide-scrollbar max-h-[85vh]">
+          <VisuallyHidden>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
+          </VisuallyHidden>
           {children}
         </DialogContent>
       </Dialog>
@@ -30,6 +49,10 @@ export const ResponsiveModal = ({
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent>
+        <VisuallyHidden>
+          <DrawerTitle>{title}</DrawerTitle>
+          <DrawerDescription>{description}</DrawerDescription>
+        </VisuallyHidden>
         <div className="overflow-y-auto hide-scrollbar max-h-[85vh]">
           {children}
         </div>

@@ -22,7 +22,7 @@ const routes = [
     activeIcon: GoHomeFill,
   },
   {
-    label: "My Tasks",
+    label: "My tasks",
     href: "/tasks",
     icon: GoCheckCircle,
     activeIcon: GoCheckCircleFill,

@@ -50,20 +50,13 @@ export const MembersList = () => {
     const ok = await confirm();
     if (!ok) return;
 
-    deleteMember(
-      {
-        param: { memberId },
-      },
-      {
-        onSuccess: () => {
-          window.location.reload();
-        },
-      }
-    );
+    deleteMember({
+      param: { memberId },
+    });
   };
 
   return (
-    <Card className="w-full h-full  ">
+    <Card className="w-full h-full shadow-none border-none">
       <ConfirmDialog />
       <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-0">
         <Button asChild variant="secondary" size="sm">

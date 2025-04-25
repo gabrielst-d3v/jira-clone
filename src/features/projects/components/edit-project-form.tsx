@@ -1,8 +1,8 @@
 "use client";
 
 import { z } from "zod";
-import { useRef } from "react";
 import Image from "next/image";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -82,14 +82,7 @@ export const EditProjectForm = ({
       image: values.image instanceof File ? values.image : "",
     };
 
-    mutate(
-      { form: finalValues, param: { projectId: initialValues.$id } },
-      {
-        onSuccess: () => {
-          form.reset();
-        },
-      }
-    );
+    mutate({ form: finalValues, param: { projectId: initialValues.$id } });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +95,7 @@ export const EditProjectForm = ({
   return (
     <div className="flex flex-col gap-y-4">
       <DeleteDialog />
-      <Card className="w-full h-full  ">
+      <Card className="w-full h-full shadow-none border-none">
         <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-0">
           <Button
             size="sm"
@@ -237,7 +230,7 @@ export const EditProjectForm = ({
         </CardContent>
       </Card>
 
-      <Card className="w-full h-full  ">
+      <Card className="w-full h-full shadow-none border-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
             <h3 className="font-bold">Danger Zone</h3>
